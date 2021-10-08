@@ -2,7 +2,7 @@ name: release
 
 on:
   push:
-    tags: '*'
+    tags: "*"
 
 jobs:
   release:
@@ -47,9 +47,9 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64,linux/arm/v7,linux/arm64
           tags: |
-            docker.io/stefanprodan/podinfo:${{ steps.prep.outputs.VERSION }}
-            docker.io/stefanprodan/podinfo:latest
-            ghcr.io/stefanprodan/podinfo:${{ steps.prep.outputs.VERSION }}
+            docker.io/${{ github.actor }}/podinfo:${{ steps.prep.outputs.VERSION }}
+            docker.io/${{ github.actor }}/podinfo:latest
+            ghcr.io/${{ github.actor }}/podinfo:${{ steps.prep.outputs.VERSION }}
           labels: |
             org.opencontainers.image.title=${{ github.event.repository.name }}
             org.opencontainers.image.description=${{ github.event.repository.description }}
@@ -66,16 +66,16 @@ jobs:
           context: .
           platforms: linux/amd64
           file: ./Dockerfile.base
-          tags: docker.io/stefanprodan/podinfo-base:latest
-      - name: Publish helm chart
-        uses: stefanprodan/helm-gh-pages@master
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          tags: docker.io/${{ github.actor }}/podinfo-base:latest
+      # - name: Publish helm chart
+      #   uses: ${{ github.actor }}/helm-gh-pages@master
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
       - uses: ./.github/actions/release-notes
       - name: Generate release notes
         run: |
           echo 'CHANGELOG' > /tmp/release.txt
-          github-release-notes -org stefanprodan -repo podinfo -since-latest-release >> /tmp/release.txt
+          github-release-notes -org ${{ github.actor }} -repo podinfo -since-latest-release >> /tmp/release.txt
       - name: Publish release
         uses: goreleaser/goreleaser-action@v1
         with:
