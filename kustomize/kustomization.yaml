@@ -1,10 +1,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - hpa.yaml
-  - ingress.yaml
-  - deployment.yaml
-  - service.yaml
+- hpa.yaml
+- ingress.yaml
+- deployment.yaml
+- service.yaml
 images:
-  - name: ghcr.io/mills-nick/podinfo
-    newTag: sha-334600b8
+- name: ghcr.io/mills-nick/podinfo
+  newTag: sha-daa7cb4c
